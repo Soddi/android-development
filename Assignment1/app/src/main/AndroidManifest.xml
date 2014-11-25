@@ -16,6 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.soddi.assignment1.ChatActivity"
+            android:label="@string/title_activity_chat"
+            android:parentActivityName="com.soddi.assignment1.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.soddi.assignment1.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.soddi.assignment1.TemplateMenuActivity"
+            android:label="@string/title_activity_template_menu" >
+        </activity>
     </application>
 
 </manifest>
