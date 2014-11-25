@@ -59,7 +59,13 @@ public class ChatActivity extends TemplateMenuActivity {
     }
 
     public void settings() {
-        Toast.makeText(this, "Will be implemented in the next version", Toast.LENGTH_SHORT).show();
+
+        if(findViewById(R.id.fragment_chat_container) != null) {
+            SettingsFragment settingsFragment = new SettingsFragment();
+            settingsFragment.setArguments(getIntent().getExtras());
+            getFragmentManager().beginTransaction().add(R.id.fragment_chat_container, settingsFragment).commit();
+        }
+        Toast.makeText(this, "Settings fragment created", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -71,6 +77,6 @@ public class ChatActivity extends TemplateMenuActivity {
             aboutFragment.setArguments(getIntent().getExtras());
             getFragmentManager().beginTransaction().add(R.id.fragment_chat_container, aboutFragment).commit();
         }
-        Toast.makeText(this, "fragment created", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "About fragment created", Toast.LENGTH_SHORT).show();
     }
 }
