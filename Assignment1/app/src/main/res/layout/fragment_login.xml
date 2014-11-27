@@ -39,5 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:onClick="revivePassword"
-        android:text="Forgot Password?" />
+        android:text="Forgot Password?"
+        android:layout_margin="16dp" />
 </LinearLayout>
