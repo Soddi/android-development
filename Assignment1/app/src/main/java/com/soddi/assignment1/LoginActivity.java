@@ -36,7 +36,7 @@ public class LoginActivity extends TemplateMenuActivity {
      * Called when the user clicks the login button
      */
     public void login(View view) {
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         EditText editText = (EditText) findViewById(R.id.emailField);
         String email = editText.getText().toString();
         intent.putExtra(EXTRA_EMAIL, email);

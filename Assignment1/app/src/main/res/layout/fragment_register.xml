@@ -16,15 +16,22 @@
         android:id="@+id/emailField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/emailField" />
+        android:hint="@string/emailField"
+        android:inputType="textEmailAddress|textCapSentences|textAutoCorrect|textAutoComplete"/>
 
     <EditText
         android:id="@+id/passwordField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/passwordField"
-        android:padding="@dimen/activity_vertical_margin"
-        android:password="true" />
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/confirmPasswordField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/confirmPasswordField"
+        android:inputType="textPassword" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,13 +43,15 @@
         android:id="@+id/securityQuestionField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_security_message" />
+        android:hint="@string/hint_security_message"
+        android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"/>
 
     <EditText
         android:id="@+id/securityAnswerField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_security_answer" />
+        android:hint="@string/hint_security_answer"
+        android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"/>
 
     <Button
         android:id="@+id/CreateAccountButton"

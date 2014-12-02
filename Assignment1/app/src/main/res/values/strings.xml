@@ -9,6 +9,7 @@
 
     <string name="emailField">E-mail address</string>
     <string name="passwordField">Password</string>
+    <string name="confirmPasswordField">Confirm Password</string>
     <string name="actionSettings">Settings</string>
     <string name="about_app">About</string>
     <string name="text_settings">Settings fragment. This will be updated in the next version of the app.</string>
@@ -19,7 +20,7 @@
     <string name="loginButton">Login</string>
     <string name="CreateButton">Create Account</string>
     <string name="security_question_message">Please provide a security question and an answer for authentication,
-                                             if you ever need to revive your password</string>
+                                             incase you need to revive your password</string>d
     <string name="hint_security_message">Security message</string>
     <string name="hint_security_answer">Answer</string>
     <string name="security_msg_reset_pw">To revive your password, you must answer this security question</string>

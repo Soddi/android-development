@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context="com.soddi.assignment1.ChatActivity">
-
-    <ListView
-        android:id="@+id/GroupListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></ListView>
+    tools:context="com.soddi.assignment1.MainActivity">
 
 </LinearLayout>
