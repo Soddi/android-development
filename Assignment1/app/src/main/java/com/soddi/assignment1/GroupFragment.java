@@ -52,7 +52,6 @@ public class GroupFragment extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(),
                         "Click ListItem number " + (position + 1), Toast.LENGTH_SHORT).show();
                 ChatFragment chatFragment = new ChatFragment();
-                //getActivity().getApplicationContext();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
                 fragmentTransaction.replace(R.id.fragment_chat_container, chatFragment);
