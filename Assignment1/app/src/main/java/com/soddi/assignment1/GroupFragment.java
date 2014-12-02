@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link /Fragment} subclass.
@@ -32,7 +34,9 @@ public class GroupFragment extends Fragment implements ListView.OnItemClickListe
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private String[] groupNames = { "Group 1", "Group 2", "Group 3 ", "Group 4", "Group 5" };
+    private String[] groupNames = { "Group 1", "Group 2", "Group 3 ", "Group 4", "Group 5",
+            "Group 6", "Group 7", "Group 8 ", "Group 9", "Group 10",
+            "Group 11", "Group 12", "Group 13 ", "Group 14", "Group 15" };
 
     private ListView groupList;
     private ArrayAdapter<String> groupListAdapter;
@@ -68,8 +72,11 @@ public class GroupFragment extends Fragment implements ListView.OnItemClickListe
         }
 
         getActivity().setTitle("Group List");
-        groupListAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, groupNames);
-
+        final ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < groupNames.length; ++i) {
+            list.add(groupNames[i]);
+        }
+        groupListAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, list);
 
     }
 
@@ -81,13 +88,12 @@ public class GroupFragment extends Fragment implements ListView.OnItemClickListe
         View view = inflater.inflate(R.layout.fragment_group, container, false);
         groupList = (ListView) view.findViewById(R.id.GroupListView);
         groupList.setAdapter(groupListAdapter);
-        groupList.setOnItemClickListener(this);
 
         groupList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity().getApplicationContext(),
-                    "Click ListItem number " + position, Toast.LENGTH_SHORT).show();
+                    "Click ListItem number " + (position+1), Toast.LENGTH_SHORT).show();
                 ChatFragment chatFragment = new ChatFragment();
                 //getActivity().getApplicationContext();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
