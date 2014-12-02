@@ -57,7 +57,7 @@ public class GroupFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragment_chat_container, chatFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                Log.e("GroupFragment", "You have clicked a group");
+                Log.d("GroupFragment", "You have clicked a group");
             }
         });
         return view;
