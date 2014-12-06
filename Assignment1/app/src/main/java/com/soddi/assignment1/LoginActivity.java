@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+
+/**
+ * This App should be complete for Assignment1
+ */
+
 public class LoginActivity extends TemplateMenuActivity {
     public final static String EXTRA_EMAIL = "com.soddi.EMAIL";
 
