@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="firebase_url">https://glaring-torch-3975.firebaseio.com</string>
+
     <string name="app_name">Anonymous</string>
     <string name="about">Anonymous \n Version 0.1 \n Simple chat app made by Soded A.</string>
     <string name="app_version">Version 0.1</string>

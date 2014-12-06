@@ -13,14 +13,14 @@
         android:src="@drawable/face_placeholder" />
 
     <EditText
-        android:id="@+id/emailField"
+        android:id="@+id/emailRegisterField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/emailField"
         android:inputType="textEmailAddress|textCapSentences|textAutoCorrect|textAutoComplete"/>
 
     <EditText
-        android:id="@+id/passwordField"
+        android:id="@+id/passwordRegisterField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/passwordField"
@@ -57,6 +57,6 @@
         android:id="@+id/CreateAccountButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="login"
+        android:onClick="createAccount"
         android:text="@string/CreateButton" />
 </LinearLayout>

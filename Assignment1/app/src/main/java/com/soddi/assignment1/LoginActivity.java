@@ -2,20 +2,32 @@ package com.soddi.assignment1;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 /**
  * Assignment 1 finished, this is the base of Assignment 2 now.
  */
 public class LoginActivity extends TemplateMenuActivity {
     public final static String EXTRA_EMAIL = "com.soddi.EMAIL";
+    public Firebase myFireBaseRef;
+
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Firebase.setAndroidContext(this);
+        myFireBaseRef = new Firebase((String)(getResources().getText(R.string.firebase_url)));
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -39,11 +51,16 @@ public class LoginActivity extends TemplateMenuActivity {
      * Called when the user clicks the login button
      */
     public void login(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
         EditText editText = (EditText) findViewById(R.id.emailField);
         String email = editText.getText().toString();
-        intent.putExtra(EXTRA_EMAIL, email);
-        startActivity(intent);
+        editText = (EditText) findViewById(R.id.passwordField);
+        String password = editText.getText().toString();
+
+        if(email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Enter both email and password", Toast.LENGTH_SHORT).show();
+        } else {
+            authUser(email, password);
+        }
     }
 
     public void register(View view) {
@@ -72,6 +89,54 @@ public class LoginActivity extends TemplateMenuActivity {
         fragmentTransaction.replace(R.id.fragment_login_container, aboutFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void createAccount(View view) {
+        EditText editText = (EditText) findViewById(R.id.emailRegisterField);
+        final String email = editText.getText().toString();
+        editText = (EditText) findViewById(R.id.passwordRegisterField);
+        final String password = editText.getText().toString();
+
+        if(email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Enter both email and password", Toast.LENGTH_SHORT).show();
+        }
+        else {
+           myFireBaseRef.createUser(email, password, new Firebase.ResultHandler() {
+              @Override
+           public void onSuccess() {
+                  Log.d(TAG, "Registration Successful");
+                  authUser(email, password);
+              }
+               @Override
+           public void onError(FirebaseError firebaseError) {
+                   Log.d(TAG, "Registration error");
+               }
+           });
+        }
+    }
+
+    public void authUser(final String email, final String password) {
+        myFireBaseRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                Log.d(TAG, "Authentication Successful");
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra(EXTRA_EMAIL, email);
+                startActivity(intent);
+            }
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+                Log.d(TAG, "Authentication error");
+                switch (firebaseError.getCode()) {
+                    case FirebaseError.INVALID_EMAIL:
+                        Toast.makeText(getApplicationContext(), "Invalid email", Toast.LENGTH_SHORT).show();
+                    case FirebaseError.INVALID_PASSWORD:
+                        Toast.makeText(getApplicationContext(), "Invalid password", Toast.LENGTH_SHORT).show();
+                    default:
+                        Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 }
