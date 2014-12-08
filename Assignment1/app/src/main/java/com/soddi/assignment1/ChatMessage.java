@@ -46,4 +46,9 @@ public class ChatMessage {
     public String getTimestamp() {
         return timestamp;
     }
+
+    @Override
+    public String toString() {
+        return message;
+    }
 }

@@ -30,4 +30,9 @@ public class Group {
     public String getId() {
         return this.id;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

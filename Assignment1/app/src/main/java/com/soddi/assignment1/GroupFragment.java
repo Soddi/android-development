@@ -22,9 +22,6 @@ import java.util.ArrayList;
 
 public class GroupFragment extends Fragment {
     private final static String TAG = "GroupFragment";
-    private String[] groupNames = {"Group 1", "Group 2", "Group 3 ", "Group 4", "Group 5",
-            "Group 6", "Group 7", "Group 8 ", "Group 9", "Group 10",
-            "Group 11", "Group 12", "Group 13 ", "Group 14", "Group 15"};
     private ListView groupList;
     private ArrayAdapter<Group> groupListAdapter;
     private ArrayList<Group> groups;
@@ -41,18 +38,13 @@ public class GroupFragment extends Fragment {
         Firebase.setAndroidContext(getActivity());
         myFireBaseRef = new Firebase((String)(getResources().getText(R.string.firebase_url)));
         getActivity().setTitle("Group List");
-        /*final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < groupNames.length; ++i) {
-            list.add(groupNames[i]);
-        }*/
         groups = new ArrayList<Group>();
-        //groupListAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
         groupListAdapter = new ArrayAdapter<Group>(getActivity(), android.R.layout.simple_list_item_1, groups);
 
         myFireBaseRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String s) {
-                groupListAdapter.add(new Group(snapshot.getKey(), (String) snapshot.child("name").getValue()));
+                groupListAdapter.add(new Group((String) snapshot.child("id").getValue(), (String) snapshot.child("name").getValue()));
             }
 
             @Override
@@ -82,8 +74,6 @@ public class GroupFragment extends Fragment {
         groupList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Click ListItem number " + (position + 1), Toast.LENGTH_SHORT).show();
                 ChatFragment chatFragment = new ChatFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
