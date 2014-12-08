@@ -13,6 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
 import java.util.ArrayList;
 
 public class GroupFragment extends Fragment {
@@ -21,7 +26,10 @@ public class GroupFragment extends Fragment {
             "Group 6", "Group 7", "Group 8 ", "Group 9", "Group 10",
             "Group 11", "Group 12", "Group 13 ", "Group 14", "Group 15"};
     private ListView groupList;
-    private ArrayAdapter<String> groupListAdapter;
+    private ArrayAdapter<Group> groupListAdapter;
+    private ArrayList<Group> groups;
+
+    public Firebase myFireBaseRef;
 
     public GroupFragment() {
         // Required empty public constructor
@@ -30,12 +38,37 @@ public class GroupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(getActivity());
+        myFireBaseRef = new Firebase((String)(getResources().getText(R.string.firebase_url)));
         getActivity().setTitle("Group List");
-        final ArrayList<String> list = new ArrayList<String>();
+        /*final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < groupNames.length; ++i) {
             list.add(groupNames[i]);
-        }
-        groupListAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+        }*/
+        groups = new ArrayList<Group>();
+        //groupListAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+        groupListAdapter = new ArrayAdapter<Group>(getActivity(), android.R.layout.simple_list_item_1, groups);
+
+        myFireBaseRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String s) {
+                groupListAdapter.add(new Group(snapshot.getKey(), (String) snapshot.child("name").getValue()));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String s) {
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot) {
+            }
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String s) {
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+
     }
 
     @Override

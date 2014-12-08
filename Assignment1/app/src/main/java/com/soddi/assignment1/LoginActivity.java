@@ -110,6 +110,9 @@ public class LoginActivity extends TemplateMenuActivity {
                @Override
            public void onError(FirebaseError firebaseError) {
                    Log.d(TAG, "Registration error");
+                   if(firebaseError.getCode() == firebaseError.EMAIL_TAKEN) {
+                       Toast.makeText(getApplicationContext(), "Email is taken", Toast.LENGTH_SHORT).show();
+                   }
                }
            });
         }
