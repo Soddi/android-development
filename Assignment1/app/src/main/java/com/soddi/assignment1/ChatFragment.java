@@ -24,10 +24,21 @@ public class ChatFragment extends Fragment {
     private ArrayAdapter<ChatMessage> chatListAdapter;
     private ArrayList<ChatMessage> chatMessages;
 
+    private String groupID;
+
     public Firebase myFireBaseRef;
 
     public ChatFragment() {
         // Required empty public constructor
+    }
+
+    public static ChatFragment newInstance(Group group) {
+        ChatFragment fragment = new ChatFragment();
+        Bundle args = new Bundle();
+        args.putString("groupName", group.getName());
+        args.putString("groupID", group.getId());
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -36,7 +47,7 @@ public class ChatFragment extends Fragment {
         getActivity().setTitle("ChatList");
 
         Firebase.setAndroidContext(getActivity());
-        myFireBaseRef = new Firebase( (String) getResources().getText(R.string.firebase_url));
+        myFireBaseRef = new Firebase( (String) getResources().getText(R.string.firebase_url)).child("groupName").child("messages");
 
         chatMessages = new ArrayList<ChatMessage>();
         chatListAdapter = new ArrayAdapter<ChatMessage>(getActivity(), android.R.layout.simple_list_item_1, chatMessages);

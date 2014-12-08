@@ -27,6 +27,9 @@ public class GroupFragment extends Fragment {
     private ArrayList<Group> groups;
 
     public Firebase myFireBaseRef;
+    public String groupID;
+
+    private ChatFragment chatFragment;
 
     public GroupFragment() {
         // Required empty public constructor
@@ -65,7 +68,7 @@ public class GroupFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_group, container, false);
         groupList = (ListView) view.findViewById(R.id.GroupListView);
@@ -74,7 +77,8 @@ public class GroupFragment extends Fragment {
         groupList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ChatFragment chatFragment = new ChatFragment();
+                Group group = groupListAdapter.getItem(position);
+                chatFragment = ChatFragment.newInstance(group);
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
                 fragmentTransaction.replace(R.id.fragment_chat_container, chatFragment);
