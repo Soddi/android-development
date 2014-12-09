@@ -55,7 +55,8 @@ public class ChatFragment extends Fragment {
         }
 
         Firebase.setAndroidContext(getActivity());
-        myFireBaseRef = new Firebase( (String) getResources().getText(R.string.firebase_url)).child(groupID).child("messages");
+        myFireBaseRef = new Firebase( (String) getResources().getText(R.string.firebase_url) + "/" + groupID + "/messages");
+        //myFireBaseRef = new Firebase( (String) getResources().getText(R.string.firebase_url)).child(groupID).child("messages");
 
         chatMessages = new ArrayList<ChatMessage>();
         chatListAdapter = new ArrayAdapter<ChatMessage>(getActivity(), android.R.layout.simple_list_item_1, chatMessages);
