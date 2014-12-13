@@ -35,7 +35,8 @@
             android:layout_height="50dp"
             android:layout_width="100dp"
             android:background="@android:color/white"
-            android:text="send"/>
+            android:text="send"
+            android:onClick="sendMessage"/>
 
     </LinearLayout>
 

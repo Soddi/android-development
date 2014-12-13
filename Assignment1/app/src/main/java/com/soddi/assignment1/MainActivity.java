@@ -109,12 +109,8 @@ public class MainActivity extends TemplateMenuActivity {
         }
     }
 
-    public void chat(View view) {
-        ChatFragment chatFragment = new ChatFragment();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-
-        fragmentTransaction.replace(R.id.fragment_chat_container, chatFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    public void sendMessage() {
+        ChatFragment chatFragment = (ChatFragment) getFragmentManager().findFragmentById(R.id.fragment_chat_container);
+        chatFragment.sendMessage();
     }
 }

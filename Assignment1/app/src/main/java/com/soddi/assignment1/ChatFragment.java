@@ -2,6 +2,7 @@ package com.soddi.assignment1;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ChatFragment extends Fragment {
@@ -25,6 +28,7 @@ public class ChatFragment extends Fragment {
     private ArrayAdapter<ChatMessage> chatListAdapter;
     private ArrayList<ChatMessage> chatMessages;
 
+    private View view;
     private static final String TAG = "ChatFragment";
 
     private static String groupName;
@@ -88,8 +92,7 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_chat, container, false);
-        EditText editText = (EditText) view.findViewById(R.id.editChatText);
+        view = inflater.inflate(R.layout.fragment_chat, container, false);
 
         chatList = (ListView) view.findViewById(R.id.ChatListView);
         chatList.setAdapter(chatListAdapter);
@@ -101,5 +104,28 @@ public class ChatFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void sendMessage() {
+        EditText editText = (EditText) view.findViewById(R.id.editChatText);
+        Time time = new Time();
+        time.setToNow();
+
+        String timestamp = time.format("%H:%M");
+        String id = myFireBaseRef.push().getKey();
+        String message = editText.getText().toString();
+        String from = myFireBaseRef.getAuth().getProviderData().get("email").toString();
+
+        Map<String, Object> chatObjects = new HashMap<String, Object>();
+        Map<String, Object> chatMessage = new HashMap<String, Object>();
+
+        chatMessage.put("from", from);
+        chatMessage.put("message", message);
+        chatMessage.put("time", timestamp);
+        chatObjects.put(id, chatMessage);
+
+        myFireBaseRef.updateChildren(chatObjects);
+        editText.setText("");
+
     }
 }
