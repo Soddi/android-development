@@ -83,8 +83,6 @@ public class MainActivity extends TemplateMenuActivity {
     }
 
     private void createNewGroup() {
-        //TODO: Create a new group item.
-        Toast.makeText(this, "Will be created soon",Toast.LENGTH_SHORT).show();
         showInputDialog();
     }
 

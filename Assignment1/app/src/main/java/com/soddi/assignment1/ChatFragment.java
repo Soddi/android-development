@@ -25,8 +25,9 @@ import java.util.Map;
 
 public class ChatFragment extends Fragment {
     private ListView chatList;
-    private ArrayAdapter<ChatMessage> chatListAdapter;
     private ArrayList<ChatMessage> chatMessages;
+
+    private CustomAdapterChat<ChatMessage> customChatListAdapter;
 
     private View view;
     private static final String TAG = "ChatFragment";
@@ -63,13 +64,13 @@ public class ChatFragment extends Fragment {
         //myFireBaseRef = new Firebase( (String) getResources().getText(R.string.firebase_url)).child(groupID).child("messages");
 
         chatMessages = new ArrayList<ChatMessage>();
-        chatListAdapter = new ArrayAdapter<ChatMessage>(getActivity(), android.R.layout.simple_list_item_1, chatMessages);
+        customChatListAdapter= new CustomAdapterChat<ChatMessage>(getActivity(),  chatMessages);
 
         myFireBaseRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String s) {
 
-                chatListAdapter.add(new ChatMessage((String) snapshot.child("id").getValue(), (String) snapshot.child("from").getValue()
+                customChatListAdapter.add(new ChatMessage((String) snapshot.child("id").getValue(), (String) snapshot.child("from").getValue()
                         , (String) snapshot.child("message").getValue(), (String) snapshot.child("timestamp").getValue()));
             }
 
@@ -95,7 +96,7 @@ public class ChatFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_chat, container, false);
 
         chatList = (ListView) view.findViewById(R.id.ChatListView);
-        chatList.setAdapter(chatListAdapter);
+        chatList.setAdapter(customChatListAdapter);
 
         chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

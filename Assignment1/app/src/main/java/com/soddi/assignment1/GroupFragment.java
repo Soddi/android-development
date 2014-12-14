@@ -97,10 +97,6 @@ public class GroupFragment extends Fragment {
     }
 
     public void newGroup(String name) {
-        EditText editText = (EditText) view.findViewById(R.id.editChatText);
-        Time time = new Time();
-        time.setToNow();
-
         if(name.isEmpty()) {
             Toast.makeText(getActivity(), "group name must contain characters", Toast.LENGTH_SHORT);
         } else {
