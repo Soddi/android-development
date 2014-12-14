@@ -3,6 +3,7 @@ package com.soddi.assignment1;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,12 +21,16 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GroupFragment extends Fragment {
     private final static String TAG = "GroupFragment";
     private ListView groupList;
     private ArrayAdapter<Group> groupListAdapter;
     private ArrayList<Group> groups;
+
+    private View view;
 
     public Firebase myFireBaseRef;
     public String groupID;
@@ -70,7 +76,7 @@ public class GroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_group, container, false);
+        view = inflater.inflate(R.layout.fragment_group, container, false);
         groupList = (ListView) view.findViewById(R.id.GroupListView);
         groupList.setAdapter(groupListAdapter);
 
@@ -84,9 +90,30 @@ public class GroupFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragment_chat_container, chatFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                Log.d("GroupFragment", "You have clicked a group");
+                Log.d("GroupFragment", "clicked a group");
             }
         });
         return view;
+    }
+
+    public void newGroup(String name) {
+        EditText editText = (EditText) view.findViewById(R.id.editChatText);
+        Time time = new Time();
+        time.setToNow();
+
+        if(name.isEmpty()) {
+            Toast.makeText(getActivity(), "group name must contain characters", Toast.LENGTH_SHORT);
+        } else {
+            String id = myFireBaseRef.push().getKey();
+
+            Map<String, Object> groupObjects = new HashMap<String, Object>();
+            Map<String, Object> group = new HashMap<String, Object>();
+
+            group.put("name", name);
+            group.put("id", id);
+            groupObjects.put(id, group);
+
+            myFireBaseRef.updateChildren(groupObjects);
+        }
     }
 }

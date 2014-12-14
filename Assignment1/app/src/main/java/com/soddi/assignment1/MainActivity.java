@@ -1,11 +1,16 @@
 package com.soddi.assignment1;
 
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.DialogPreference;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -80,6 +85,36 @@ public class MainActivity extends TemplateMenuActivity {
     private void createNewGroup() {
         //TODO: Create a new group item.
         Toast.makeText(this, "Will be created soon",Toast.LENGTH_SHORT).show();
+        showInputDialog();
+    }
+
+    protected void showInputDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+        View promtView = layoutInflater.inflate(R.layout.input_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setView(promtView);
+
+        final EditText editText = (EditText) promtView.findViewById(R.id.editGroupText);
+
+        //Setup a dialog window
+        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = editText.getText().toString();
+                GroupFragment groupFragment = (GroupFragment) getFragmentManager().findFragmentById(R.id.fragment_chat_container);
+                groupFragment.newGroup(name);
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        //create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+
     }
 
     private void settings() {
@@ -109,7 +144,7 @@ public class MainActivity extends TemplateMenuActivity {
         }
     }
 
-    public void sendMessage() {
+    public void sendMessage(View view) {
         ChatFragment chatFragment = (ChatFragment) getFragmentManager().findFragmentById(R.id.fragment_chat_container);
         chatFragment.sendMessage();
     }

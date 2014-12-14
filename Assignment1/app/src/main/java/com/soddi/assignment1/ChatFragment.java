@@ -126,6 +126,5 @@ public class ChatFragment extends Fragment {
 
         myFireBaseRef.updateChildren(chatObjects);
         editText.setText("");
-
     }
 }
