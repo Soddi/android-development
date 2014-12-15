@@ -4,6 +4,9 @@
     <!--  <string name="firebase_url">https://glaring-torch-3975.firebaseio.com</string> </-->
     <string name="firebase_url">https://da401a.firebaseio.com</string>
 
+    <string name="username">werra89@gmail.com</string>
+    <string name="password">tolle</string>
+
     <string name="app_name">Anonymous</string>
     <string name="about">Anonymous \n Version 0.1 \n Simple chat app made by Soded A.</string>
     <string name="app_version">Version 0.1</string>

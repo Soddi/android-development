@@ -71,7 +71,7 @@ public class ChatFragment extends Fragment {
             public void onChildAdded(DataSnapshot snapshot, String s) {
 
                 customChatListAdapter.add(new ChatMessage((String) snapshot.child("id").getValue(), (String) snapshot.child("from").getValue()
-                        , (String) snapshot.child("message").getValue(), (String) snapshot.child("timestamp").getValue()));
+                        , (String) snapshot.child("message").getValue(), (String) snapshot.child("time").getValue()));
             }
 
             @Override
