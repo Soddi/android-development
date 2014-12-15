@@ -4,3 +4,13 @@
 /.idea/libraries
 .DS_Store
 /build
+
+# Added manually (Tagen från andreas)
+/.idea
+/gradle
+*.iml
+*.pro
+*.bat
+*.properties
+gradlew
+settings.gradle
