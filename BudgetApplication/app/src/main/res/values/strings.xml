@@ -2,14 +2,20 @@
 <resources>
 
     <string name="app_name">BudgetApplication</string>
+
     <string name="menu_Income">Income</string>
     <string name="menu_Expenses">Expenses</string>
     <string name="menu_Summary">Summary</string>
+
     <string name="button_Income">Add Income</string>
     <string name="button_Expenses">Add Expense</string>
     <string name="button_add_income">Add Income</string>
     <string name="button_add_expense">Add Expense</string>
     <string name="button_cancel">Cancel</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="textview_income">0 kr</string>
+    <string name="textview_expense">0 kr</string>
+    <string name="textview_summary">0 kr</string>
 
 </resources>
