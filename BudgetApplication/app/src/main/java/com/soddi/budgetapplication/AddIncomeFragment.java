@@ -1,8 +1,6 @@
 package com.soddi.budgetapplication;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +13,7 @@ import android.widget.Toast;
 public class AddIncomeFragment extends Fragment {
 
     EditText id, date, amount, title;
+    private DBController dbController;
 
     public AddIncomeFragment() {
         // Required empty public constructor
@@ -23,6 +22,14 @@ public class AddIncomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbController = new DBController(getActivity());
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        dbController.open();
     }
 
     @Override
@@ -58,14 +65,14 @@ public class AddIncomeFragment extends Fragment {
             public void onClick(View view1) {
                 //TODO: Add income to database
 
-                String incomeID = id.getText().toString();
                 String incomeDate = date.getText().toString();
                 String incomeAmount = amount.getText().toString();
                 String incomeTitle = title.getText().toString();
 
-                Transaction transaction = new Transaction(incomeID, incomeDate, incomeAmount, incomeTitle);
+                Transaction transaction = new Transaction(incomeDate, incomeAmount, incomeTitle);
+                long id = dbController.createTransaction(transaction);
 
-                Toast.makeText(getActivity(), "Income added!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Income with id " + id + " was created", Toast.LENGTH_SHORT).show();
                 IncomeFragment incomeFragment = new IncomeFragment();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.layout_main, incomeFragment);

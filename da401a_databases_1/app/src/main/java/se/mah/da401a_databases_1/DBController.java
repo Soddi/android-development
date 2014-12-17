@@ -15,8 +15,8 @@ public class DBController extends SQLiteOpenHelper {
   private static final int VERSION = 1;
 
   private static final String CREATETABLE = "CREATE TABLE persons " +
-      "(_id integer primary key autoincrement, " +
-      "name text not null, " +
+      "(_id integer primary key autoincrement , " +
+      "name text not null , " +
       "code text not null);";
 
   private SQLiteDatabase db;

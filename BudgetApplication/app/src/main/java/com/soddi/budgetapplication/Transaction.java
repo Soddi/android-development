@@ -4,7 +4,6 @@ package com.soddi.budgetapplication;
  * Created by soddi on 2014-12-17.
  */
 public class Transaction {
-    String id;
     String date;
     String amount;
     String title;
@@ -13,19 +12,10 @@ public class Transaction {
 
     }
 
-    public Transaction(String id, String date, String amount, String title) {
-        this.id = id;
+    public Transaction(String date, String amount, String title) {
         this.date = date;
         this.amount = amount;
         this.title = title;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDate() {
