@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Bundle;
 import android.util.Log;
 
 
@@ -19,7 +18,7 @@ public class DBController extends SQLiteOpenHelper{
 
     private static final String TABLE_NAME = "transaction";
 
-    private static final String CREATE_TABLE = "CREATE TABLE transaction " +
+    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
             "(_id integer primary key autoincrement, " +
             "title text not null, " +
             "amount integer not null, " +
@@ -53,11 +52,15 @@ public class DBController extends SQLiteOpenHelper{
     public long createTransaction(Transaction transactionObject) {
         ContentValues values = new ContentValues();
 
-        values.put("title", transactionObject.getTitle());
-        values.put("amount", transactionObject.getAmount());
-        values.put("date", transactionObject.getDate());
+        String title = transactionObject.getTitle();
+        String amount = transactionObject.getAmount();
+        String date = transactionObject.getDate();
 
-        return db.insert("transaction", null, values);
+        values.put("title", title);
+        values.put("amount", amount);
+        values.put("date", date);
+
+        return db.insert(TABLE_NAME, null, values);
     }
 
     public Cursor getIncomes() {

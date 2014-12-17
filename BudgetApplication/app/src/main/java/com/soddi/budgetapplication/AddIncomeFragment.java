@@ -40,7 +40,6 @@ public class AddIncomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_add_income, container, false);
 
-        id = (EditText) view.findViewById(R.id.editText_incomeID);
         date = (EditText) view.findViewById(R.id.editText_incomeDate);
         amount = (EditText) view.findViewById(R.id.editText_incomeAmount);
         title = (EditText) view.findViewById(R.id.editText_incomeTitle);
@@ -67,11 +66,13 @@ public class AddIncomeFragment extends Fragment {
                 //TODO: Add income to database
 
                 String incomeDate = date.getText().toString();
+                String incomeAmountStr = amount.getText().toString();
                 int incomeAmount = Integer.parseInt(amount.getText().toString());
                 String incomeTitle = title.getText().toString();
 
-                Transaction transaction = new Transaction(incomeDate, incomeAmount, incomeTitle);
+                Transaction transaction = new Transaction(incomeDate, incomeAmountStr, incomeTitle);
                 long id = dbController.createTransaction(transaction);
+                dbController.close();
 
                 Toast.makeText(getActivity(), "Income with id " + id + " was created", Toast.LENGTH_SHORT).show();
                 IncomeFragment incomeFragment = new IncomeFragment();
