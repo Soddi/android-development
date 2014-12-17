@@ -8,18 +8,16 @@ public class Transaction {
     String date;
     String amount;
     String title;
-    String type;
 
     public Transaction() {
 
     }
 
-    public Transaction(String id, String date, String amount, String title, String type) {
+    public Transaction(String id, String date, String amount, String title) {
         this.id = id;
         this.date = date;
         this.amount = amount;
         this.title = title;
-        this.type = type;
     }
 
     public String getId() {
@@ -52,13 +50,5 @@ public class Transaction {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }
