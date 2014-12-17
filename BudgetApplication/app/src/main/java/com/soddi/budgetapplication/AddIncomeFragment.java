@@ -63,7 +63,7 @@ public class AddIncomeFragment extends Fragment {
                 String incomeAmount = amount.getText().toString();
                 String incomeTitle = title.getText().toString();
 
-                Transaction transaction = new Transaction(incomeID, incomeDate, incomeAmount, incomeTitle);
+                Transaction transaction = new Transaction(incomeID, incomeDate, incomeAmount, incomeTitle, "income");
 
                 Toast.makeText(getActivity(), "Income added!", Toast.LENGTH_SHORT).show();
                 IncomeFragment incomeFragment = new IncomeFragment();
