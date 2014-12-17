@@ -20,8 +20,8 @@ public class MainActivity extends Activity {
         //Start SummaryFragment
         FragmentManager fm= getFragmentManager();
         FragmentTransaction ft= fm.beginTransaction();
-        IncomeFragment incomesFragment=new IncomeFragment();
-        ft.add(R.id.layout_main,incomesFragment);
+        SummaryFragment summaryFragment = new SummaryFragment();
+        ft.add(R.id.layout_main, summaryFragment);
         ft.commit();
 
 
