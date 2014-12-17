@@ -46,7 +46,7 @@ public class AddExpenseFragment extends Fragment {
         addExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                //TODO: Add income to database
+                //TODO: Add expense to database
                 Toast.makeText(getActivity(), "Expense added!", Toast.LENGTH_SHORT).show();
                 ExpensesFragment expensesFragment = new ExpensesFragment();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
