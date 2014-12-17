@@ -17,7 +17,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:layout_above="@+id/button"
-            android:layout_weight="10" />
+            android:layout_weight="19" />
 
         <Button
             android:layout_width="match_parent"
