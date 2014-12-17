@@ -16,7 +16,7 @@
             android:hint="ID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="number|textAutoComplete"
             android:ems="10"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentTop="true"
@@ -31,14 +31,15 @@
             android:layout_gravity="center_horizontal"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/activity_vertical_margin" />
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:inputType="textAutoComplete|textAutoCorrect"/>
 
         <EditText
             android:id="@+id/editText_expenseAmount"
             android:hint="Amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:inputType="numberDecimal|textAutoComplete"
             android:ems="10"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentTop="true"
@@ -53,7 +54,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/activity_vertical_margin" />
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:focusableInTouchMode="true"
+            android:inputType="textAutoComplete|textAutoCorrect|textCapSentences"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_cancel"
                 android:id="@+id/button_cancel_expense"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <Button
                 android:layout_width="wrap_content"
