@@ -68,17 +68,13 @@ public class DBController extends SQLiteOpenHelper{
         return db.query(
                 "transactions",
                 new String[]{"_id", "title", "amount", "date"},
-                "amount >= 0",
-                null,
-                null,
-                null,
-                null);
+                "amount >= 0", null, null, null, null);
     }
     public Cursor getExpenses() {
 
         String testQuery = "SELECT (_id, title, amount, date) FROM transaction\n" +
                 "UNION SELECT (_id, title, -amount, date) FROM Transaction\n" +
                 "ORDER BY date";
-        return db.rawQuery("SELECT (_id, title, amount, date) FROM transaction WHERE amount < 0;", null);
+        return db.rawQuery("SELECT (_id, title, amount, date) FROM transactions WHERE amount < 0;", null);
     }
 }

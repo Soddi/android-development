@@ -27,8 +27,8 @@ public class TransactionAdapter extends CursorAdapter{
 
         viewHolder.title = (TextView) root.findViewById(R.id.transaction_Title);
         viewHolder.amount = (TextView) root.findViewById(R.id.transaction_Amount);
-        viewHolder.id = (TextView) root.findViewById(R.id.transaction_ID);
         viewHolder.date = (TextView) root.findViewById(R.id.transaction_Date);
+        viewHolder.id = (TextView) root.findViewById(R.id.transaction_ID);
 
         root.setTag(viewHolder);
 
@@ -39,16 +39,16 @@ public class TransactionAdapter extends CursorAdapter{
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
 
-        holder.title.setText("Title: \t" + cursor.getString(1));
-        holder.amount.setText("Amount: \t" + cursor.getString(2));
-        holder.id.setText("id: \t" + cursor.getString(4));
-        holder.date.setText("Date: \t" + cursor.getString(3));
+        holder.title.setText(cursor.getString(1));
+        holder.amount.setText(cursor.getString(2) + " kr");
+        holder.date.setText(cursor.getString(3));
+        holder.id.setText("id: \t" + cursor.getString(0));
     }
 
     private class ViewHolder {
         TextView title;
         TextView amount;
-        TextView id;
         TextView date;
+        TextView id;
     }
 }
