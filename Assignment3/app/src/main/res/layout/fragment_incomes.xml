@@ -1,0 +1,18 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.testapp.assignment3.IncomesFragment">
+
+    <Button
+        android:id="@+id/add_income"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_incomes" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listViewIncomes"
+        android:layout_below="@+id/add_income" />
+
+</RelativeLayout>

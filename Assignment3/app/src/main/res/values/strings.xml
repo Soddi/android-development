@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Assignment3</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment 1</string>
+    <string name="hello_blank_fragment_2">Hello blank fragment 2</string>
+    <string name="hello_blank_fragment_3">Hello blank fragment 3</string>
+
+    <string name="expenses">Expenses</string>
+    <string name="incomes">Incomes</string>
+    <string name="summary">Summary</string>
+
+    <string name="add_incomes">Add income</string>
+    <string name="add_expenses">Add expense</string>
+    <string name="create_incomes">Create income</string>
+    <string name="create_expenses">Create expense</string>
+
+    <string name="update">Update</string>
+
+</resources>
