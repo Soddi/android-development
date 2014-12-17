@@ -5,14 +5,14 @@ package com.soddi.budgetapplication;
  */
 public class Transaction {
     String date;
-    String amount;
+    int amount;
     String title;
 
     public Transaction() {
 
     }
 
-    public Transaction(String date, String amount, String title) {
+    public Transaction(String date, int amount, String title) {
         this.date = date;
         this.amount = amount;
         this.title = title;
@@ -26,11 +26,11 @@ public class Transaction {
         this.date = date;
     }
 
-    public String getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 

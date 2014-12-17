@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 /**
@@ -17,11 +18,16 @@ public class DBController extends SQLiteOpenHelper{
 
     private static final String TABLE_NAME = "Transaction";
 
-    private static final String CREATE_TABLE = "CREATE TABLE Transaction " +
+    private static final String CREATE_TABLE = "CREATE TABLE transaction " +
             "(_id integer primary key autoincrement, " +
             "date text not null, " +
-            "amount text not null, " +
-            "title integer not null);";
+            "amount integer not null, " +
+            "title text not null);";
+
+    private static final String CREATETABLE = "CREATE TABLE persons " +
+            "(_id integer primary key autoincrement , " +
+            "name text not null , " +
+            "code text not null);";
 
     private SQLiteDatabase db;
 
@@ -52,22 +58,29 @@ public class DBController extends SQLiteOpenHelper{
     public long createTransaction(Transaction transaction) {
         ContentValues values = new ContentValues();
 
-        values.put("Title", transaction.getTitle());
-        values.put("Amount", transaction.getAmount());
-        values.put("Date", transaction.getDate());
+        values.put("title", transaction.getTitle());
+        values.put("amount", transaction.getAmount());
+        values.put("date", transaction.getDate());
 
-        return db.insert("Transaction", null, values);
+        return db.insert("transactions", null, values);
     }
 
     public Cursor getIncomes() {
-        return db.query("Transaction", new String[]{"_id", "Date", "Amount", "Title"},
-                "Amount >= 0", null, null, null, null);
+        Log.d("DBController", "query from (amount >= 0) is not working");
+        return db.query(
+                "transactions",
+                new String[]{"_id", "title", "amount", "date"},
+                null,
+                null,
+                null,
+                null,
+                null);
     }
     public Cursor getExpenses() {
 
-        String testQuery = "SELECT (_id, title, amount, date) FROM Transaction\n" +
+        String testQuery = "SELECT (_id, title, amount, date) FROM transaction\n" +
                 "UNION SELECT (_id, title, -amount, date) FROM Transaction\n" +
-                "ORDER BY timestamp";
-        return db.rawQuery("SELECT (_id, Title, Amount, Date) FROM Transaction WHERE Amount < 0", null);
+                "ORDER BY date";
+        return db.rawQuery("SELECT (_id, title, amount, date) FROM transaction WHERE amount < 0;", null);
     }
 }

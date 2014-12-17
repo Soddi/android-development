@@ -1,6 +1,7 @@
 package com.soddi.budgetapplication;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -66,7 +67,7 @@ public class AddIncomeFragment extends Fragment {
                 //TODO: Add income to database
 
                 String incomeDate = date.getText().toString();
-                String incomeAmount = amount.getText().toString();
+                int incomeAmount = Integer.parseInt(amount.getText().toString());
                 String incomeTitle = title.getText().toString();
 
                 Transaction transaction = new Transaction(incomeDate, incomeAmount, incomeTitle);
