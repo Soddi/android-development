@@ -36,9 +36,9 @@ public class IncomeFragment extends Fragment {
         super.onResume();
         dbController.open();
 
-        Cursor c = dbController.getIncomes();
-        transactionAdapter = new TransactionAdapter(getActivity(), c, true);
-        list_transactions.setAdapter(transactionAdapter);
+        //Cursor c = dbController.getIncomes();
+        //transactionAdapter = new TransactionAdapter(getActivity(), c, true);
+        //list_transactions.setAdapter(transactionAdapter);
     }
 
     @Override

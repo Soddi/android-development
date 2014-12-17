@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.util.Log;
 
 
@@ -16,19 +17,13 @@ public class DBController extends SQLiteOpenHelper{
     private static final String DB_NAME = "TransactionDatabase";
     private static final int DB_VERSION = 1;
 
-    private static final String TABLE_NAME = "Transaction";
+    private static final String TABLE_NAME = "transaction";
 
     private static final String CREATE_TABLE = "CREATE TABLE transaction " +
             "(_id integer primary key autoincrement, " +
-            "date text not null, " +
+            "title text not null, " +
             "amount integer not null, " +
-            "title text not null);";
-
-    private static final String CREATETABLE = "CREATE TABLE persons " +
-            "(_id integer primary key autoincrement , " +
-            "name text not null , " +
-            "code text not null);";
-
+            "date text not null);";
     private SQLiteDatabase db;
 
     public DBController(Context context) {
@@ -55,22 +50,22 @@ public class DBController extends SQLiteOpenHelper{
         db.close();
     }
 
-    public long createTransaction(Transaction transaction) {
+    public long createTransaction(Transaction transactionObject) {
         ContentValues values = new ContentValues();
 
-        values.put("title", transaction.getTitle());
-        values.put("amount", transaction.getAmount());
-        values.put("date", transaction.getDate());
+        values.put("title", transactionObject.getTitle());
+        values.put("amount", transactionObject.getAmount());
+        values.put("date", transactionObject.getDate());
 
-        return db.insert("transactions", null, values);
+        return db.insert("transaction", null, values);
     }
 
     public Cursor getIncomes() {
         Log.d("DBController", "query from (amount >= 0) is not working");
         return db.query(
-                "transactions",
+                "transaction",
                 new String[]{"_id", "title", "amount", "date"},
-                null,
+                "amount >= 0",
                 null,
                 null,
                 null,
