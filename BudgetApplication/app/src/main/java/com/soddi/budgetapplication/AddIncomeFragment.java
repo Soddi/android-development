@@ -63,7 +63,6 @@ public class AddIncomeFragment extends Fragment {
         addIncome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                //TODO: Add income to database
 
                 String incomeDate = date.getText().toString();
                 String incomeAmountStr = amount.getText().toString();
@@ -72,7 +71,6 @@ public class AddIncomeFragment extends Fragment {
 
                 Transaction transaction = new Transaction(incomeDate, incomeAmountStr, incomeTitle);
                 long id = dbController.createTransaction(transaction);
-                dbController.close();
 
                 Toast.makeText(getActivity(), "Income with id " + id + " was created", Toast.LENGTH_SHORT).show();
                 IncomeFragment incomeFragment = new IncomeFragment();

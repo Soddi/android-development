@@ -13,15 +13,15 @@ import android.util.Log;
  */
 public class DBController extends SQLiteOpenHelper{
 
-    private static final String DB_NAME = "TransactionDatabase";
+    private static final String DB_NAME = "transactiondatabase";
     private static final int DB_VERSION = 1;
 
-    private static final String TABLE_NAME = "transaction";
+    private static final String TABLE_NAME = "transactions";
 
-    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
+    private static final String CREATE_TABLE = "CREATE TABLE transactions " +
             "(_id integer primary key autoincrement, " +
             "title text not null, " +
-            "amount integer not null, " +
+            "amount int not null, " +
             "date text not null);";
     private SQLiteDatabase db;
 
@@ -66,7 +66,7 @@ public class DBController extends SQLiteOpenHelper{
     public Cursor getIncomes() {
         Log.d("DBController", "query from (amount >= 0) is not working");
         return db.query(
-                "transaction",
+                "transactions",
                 new String[]{"_id", "title", "amount", "date"},
                 "amount >= 0",
                 null,
