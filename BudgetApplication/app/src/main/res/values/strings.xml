@@ -2,7 +2,11 @@
 <resources>
 
     <string name="app_name">BudgetApplication</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="menu_Income">Income</string>
+    <string name="menu_Expenses">Expenses</string>
+    <string name="menu_Summary">Summary</string>
+    <string name="button_Income">Add Income</string>
+    <string name="button_Expenses">Add Expense</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
