@@ -84,18 +84,20 @@ public class DBController extends SQLiteOpenHelper{
 
     public int getTotalIncome() {
 
-        Cursor c = db.rawQuery("SELECT sum(amount) as totalIncome FROM transactions", null);
-
-        return c.getColumnIndex("totalIncome");
+        Cursor c = db.query(
+                "transactions",
+                new String[]{"sum(amount)"},
+                "amount > 0", null, null, null, null);
+        c.moveToFirst();
+        return c.getInt(0);
     }
 
     public int getTotalExpenses() {
-        Cursor c = db.rawQuery("SELECT sum(amount) as sumExpenses FROM transactions WHERE amount < 0", null);
-        int total = 0;
-        if(c != null && c.moveToFirst());
-        do {
-            total = c.getInt(0);
-        } while (c.moveToNext());
-        return total;
+        Cursor c = db.query(
+                "transactions",
+                new String[]{"sum(amount)"},
+                "amount < 0", null, null, null, null);
+        c.moveToFirst();
+        return c.getInt(0);
     }
 }

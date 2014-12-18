@@ -26,6 +26,7 @@ public class SummaryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbController = new DBController(getActivity());
+        dbController.open();
     }
 
     @Override
@@ -51,17 +52,9 @@ public class SummaryFragment extends Fragment {
         textview_totalExpense = (TextView) view.findViewById(R.id.texViewExpense);
         textview_summary = (TextView) view.findViewById(R.id.texViewSummary);
 
-        if(dbController != null) {
-            //totalIncome = dbController.getTotalIncome();
-            Toast.makeText(getActivity(), dbController.getDatabaseName(), Toast.LENGTH_LONG).show();
-            totalIncome = dbController.getTotalIncome();
-        } else {
-            Toast.makeText(getActivity(), "DBControllern är inte korrekt instansierad!", Toast.LENGTH_SHORT).show();
-        }
-
-        textview_totalIncome.setText(totalIncome + " kr");
-        //textview_totalExpense.setText(dbController.getTotalExpenses() + " kr");
-        //textview_summary.setText(dbController.getTotalIncome() - dbController.getTotalExpenses() + " kr");
+        textview_totalIncome.setText(dbController.getTotalIncome() + " kr");
+        textview_totalExpense.setText(dbController.getTotalExpenses() + " kr");
+        textview_summary.setText((dbController.getTotalIncome() + dbController.getTotalExpenses()) + " kr");
 
         return view;
     }
