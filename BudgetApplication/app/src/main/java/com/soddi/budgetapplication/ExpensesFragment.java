@@ -16,8 +16,8 @@ import android.widget.ListView;
 public class ExpensesFragment extends Fragment {
 
     private DBController dbController;
-    private TransactionAdapter transactionAdapter;
     private ListView list_transactions;
+    private ExpenseAdapter expenseAdapter;
 
     public ExpensesFragment() {
         // Required empty public constructor
@@ -35,8 +35,8 @@ public class ExpensesFragment extends Fragment {
         dbController.open();
 
         Cursor c = dbController.getExpenses();
-        transactionAdapter = new TransactionAdapter(getActivity(), c, true);
-        list_transactions.setAdapter(transactionAdapter);
+        expenseAdapter = new ExpenseAdapter(getActivity(), c, true);
+        list_transactions.setAdapter(expenseAdapter);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ExpensesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_expenses, container, false);
 
         list_transactions = (ListView) view.findViewById(R.id.listView_Expenses);
-        list_transactions.setAdapter(transactionAdapter);
+        list_transactions.setAdapter(expenseAdapter);
 
         Button button = (Button) view.findViewById(R.id.button_Expenses);
         button.setOnClickListener(new View.OnClickListener() {

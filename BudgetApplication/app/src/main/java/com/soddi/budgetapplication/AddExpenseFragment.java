@@ -63,15 +63,13 @@ public class AddExpenseFragment extends Fragment {
             public void onClick(View view1) {
 
                 String expenseDate = date.getText().toString();
-                String expenseAmountStr = amount.getText().toString();
                 int expenseAmount = Integer.parseInt(amount.getText().toString());
                 String expenseTitle = title.getText().toString();
 
                 if (expenseAmount >= 0) {
                     Toast.makeText(getActivity(), "Only negative amounts is allowed!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Transaction transaction = new Transaction(expenseDate, expenseAmount, expenseTitle);
-                    long id = dbController.createTransaction(transaction);
+                    long id = dbController.createExpense(expenseDate, expenseAmount, expenseTitle);
                     Toast.makeText(getActivity(), "Expense with " + id + " was created", Toast.LENGTH_SHORT).show();
                 }
 

@@ -17,8 +17,8 @@ import java.util.List;
 public class IncomeFragment extends Fragment {
 
     private DBController dbController;
-    private TransactionAdapter transactionAdapter;
     private ListView list_transactions;
+    private IncomeAdapter incomeAdapter;
 
     public IncomeFragment() {
         // Required empty public constructor
@@ -37,8 +37,8 @@ public class IncomeFragment extends Fragment {
         dbController.open();
 
         Cursor c = dbController.getIncomes();
-        transactionAdapter = new TransactionAdapter(getActivity(), c, true);
-        list_transactions.setAdapter(transactionAdapter);
+        incomeAdapter = new IncomeAdapter(getActivity(), c, true);
+        list_transactions.setAdapter(incomeAdapter);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class IncomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_income, container, false);
 
         list_transactions = (ListView) view.findViewById(R.id.listView_Income);
-        list_transactions.setAdapter(transactionAdapter);
+        list_transactions.setAdapter(incomeAdapter);
 
         Button button = (Button) view.findViewById(R.id.button_Income);
         button.setOnClickListener(new View.OnClickListener() {

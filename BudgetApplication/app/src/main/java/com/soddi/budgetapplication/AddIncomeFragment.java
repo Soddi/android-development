@@ -65,15 +65,13 @@ public class AddIncomeFragment extends Fragment {
             public void onClick(View view1) {
 
                 String incomeDate = date.getText().toString();
-                String incomeAmountStr = amount.getText().toString();
                 int incomeAmount = Integer.parseInt(amount.getText().toString());
                 String incomeTitle = title.getText().toString();
 
                 if(incomeAmount <= 0) {
                     Toast.makeText(getActivity(), "Only positive amounts is allowed!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Transaction transaction = new Transaction(incomeDate, incomeAmount, incomeTitle);
-                    long id = dbController.createTransaction(transaction);
+                    long id = dbController.createIncome(incomeDate, incomeAmount, incomeTitle);
                     Toast.makeText(getActivity(), "Income with id " + id + " was created", Toast.LENGTH_SHORT).show();
                 }
 

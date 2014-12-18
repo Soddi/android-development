@@ -6,20 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * Created by soddi on 2014-12-17.
+ * Created by soddi on 2014-12-18.
  */
-public class TransactionAdapter extends CursorAdapter{
-    public TransactionAdapter(Context context, Cursor c, boolean autoRequery) {
+public class ExpenseAdapter extends CursorAdapter {
+    public ExpenseAdapter(Context context, Cursor c, boolean autoRequery) {
         super(context, c, autoRequery);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-
         View root = LayoutInflater.from(context).inflate(R.layout.custom_list_layout, parent, false);
 
         ViewHolder viewHolder = new ViewHolder();
@@ -41,7 +39,7 @@ public class TransactionAdapter extends CursorAdapter{
         holder.title.setText(cursor.getString(1));
         holder.amount.setText(cursor.getString(2) + " kr");
         holder.date.setText(cursor.getString(3));
-        holder.id.setText("id: \t" + cursor.getString(0));
+        holder.id.setText("id: " + cursor.getString(0));
     }
 
     private class ViewHolder {

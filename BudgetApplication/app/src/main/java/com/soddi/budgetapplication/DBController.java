@@ -5,24 +5,31 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 
 /**
  * Created by soddi on 2014-12-17.
  */
-public class DBController extends SQLiteOpenHelper{
+public class DBController extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "transactiondatabase";
     private static final int DB_VERSION = 1;
 
-    private static final String TABLE_NAME = "transactions";
+    private static final String TABLE_INCOME = "incomes";
+    private static final String TABLE_EXPENSE = "expenses";
 
-    private static final String CREATE_TABLE = "CREATE TABLE transactions " +
+    private static final String CREATE_TABLE_INCOME = "CREATE TABLE " + TABLE_INCOME +
             "(_id integer primary key autoincrement, " +
             "title text not null, " +
             "amount int not null, " +
             "date text not null);";
+
+    private static final String CREATE_TABLE_EXPENSE = "CREATE TABLE " + TABLE_EXPENSE +
+            "(_id integer primary key autoincrement, " +
+            "title text not null, " +
+            "amount int not null, " +
+            "date text not null);";
+
     private SQLiteDatabase db;
 
     public DBController(Context context) {
@@ -31,13 +38,16 @@ public class DBController extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE);
+
+        db.execSQL(CREATE_TABLE_INCOME);
+        db.execSQL(CREATE_TABLE_EXPENSE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // database is upgraded
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INCOME + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXPENSE + ";");
         onCreate(db);
     }
 
@@ -49,33 +59,39 @@ public class DBController extends SQLiteOpenHelper{
         db.close();
     }
 
-    public long createTransaction(Transaction transactionObject) {
+    public long createIncome(String title, int amount, String date) {
         ContentValues values = new ContentValues();
-
-        String title = transactionObject.getTitle();
-        int amount = transactionObject.getAmount();
-        String date = transactionObject.getDate();
 
         values.put("title", title);
         values.put("amount", amount);
         values.put("date", date);
 
-        return db.insert(TABLE_NAME, null, values);
+        return db.insert(TABLE_INCOME, null, values);
+    }
+
+    public long createExpense(String title, int amount, String date) {
+        ContentValues values = new ContentValues();
+
+        values.put("title", title);
+        values.put("amount", amount);
+        values.put("date", date);
+
+        return db.insert(TABLE_EXPENSE, null, values);
     }
 
     public Cursor getIncomes() {
-        Log.d("DBController", "query from (amount >= 0) is not working");
         return db.query(
-                "transactions",
+                TABLE_INCOME,
                 new String[]{"_id", "title", "amount", "date"},
-                "amount > 0", null, null, null, null);
+                null, null, null, null, null);
     }
+
     public Cursor getExpenses() {
 
         return db.query(
-                "transactions",
+                TABLE_EXPENSE,
                 new String[]{"_id", "title", "amount", "date"},
-                "amount < 0", null, null, null, null);
+                null, null, null, null, null);
         //String testQuery = "SELECT (_id, title, amount, date) FROM transaction\n" +
         //        "UNION SELECT (_id, title, -amount, date) FROM Transaction\n" +
         //        "ORDER BY date";
@@ -85,18 +101,18 @@ public class DBController extends SQLiteOpenHelper{
     public int getTotalIncome() {
 
         Cursor c = db.query(
-                "transactions",
+                TABLE_INCOME,
                 new String[]{"sum(amount)"},
-                "amount > 0", null, null, null, null);
+                null, null, null, null, null);
         c.moveToFirst();
         return c.getInt(0);
     }
 
     public int getTotalExpenses() {
         Cursor c = db.query(
-                "transactions",
+                TABLE_EXPENSE,
                 new String[]{"sum(amount)"},
-                "amount < 0", null, null, null, null);
+                null, null, null, null, null);
         c.moveToFirst();
         return c.getInt(0);
     }
