@@ -53,7 +53,7 @@ public class DBController extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
 
         String title = transactionObject.getTitle();
-        String amount = transactionObject.getAmount();
+        int amount = transactionObject.getAmount();
         String date = transactionObject.getDate();
 
         values.put("title", title);
@@ -68,13 +68,34 @@ public class DBController extends SQLiteOpenHelper{
         return db.query(
                 "transactions",
                 new String[]{"_id", "title", "amount", "date"},
-                "amount >= 0", null, null, null, null);
+                "amount > 0", null, null, null, null);
     }
     public Cursor getExpenses() {
 
-        String testQuery = "SELECT (_id, title, amount, date) FROM transaction\n" +
-                "UNION SELECT (_id, title, -amount, date) FROM Transaction\n" +
-                "ORDER BY date";
-        return db.rawQuery("SELECT (_id, title, amount, date) FROM transactions WHERE amount < 0;", null);
+        return db.query(
+                "transactions",
+                new String[]{"_id", "title", "amount", "date"},
+                "amount < 0", null, null, null, null);
+        //String testQuery = "SELECT (_id, title, amount, date) FROM transaction\n" +
+        //        "UNION SELECT (_id, title, -amount, date) FROM Transaction\n" +
+        //        "ORDER BY date";
+        //return db.rawQuery("SELECT (_id, title, amount, date) FROM transactions WHERE amount < 0;", null);
+    }
+
+    public int getTotalIncome() {
+
+        Cursor c = db.rawQuery("SELECT sum(amount) as totalIncome FROM transactions WHERE amount < 0", null);
+
+        return c.getColumnIndex("totalIncome");
+    }
+
+    public int getTotalExpenses() {
+        Cursor c = db.rawQuery("SELECT sum(amount) as sumExpenses FROM transactions WHERE amount < 0", null);
+        int total = 0;
+        if(c != null && c.moveToFirst());
+        do {
+            total = c.getInt(0);
+        } while (c.moveToNext());
+        return total;
     }
 }

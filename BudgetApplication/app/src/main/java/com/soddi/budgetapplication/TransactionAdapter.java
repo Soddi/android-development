@@ -13,7 +13,6 @@ import android.widget.TextView;
  * Created by soddi on 2014-12-17.
  */
 public class TransactionAdapter extends CursorAdapter{
-    private Transaction transaction;
     public TransactionAdapter(Context context, Cursor c, boolean autoRequery) {
         super(context, c, autoRequery);
     }

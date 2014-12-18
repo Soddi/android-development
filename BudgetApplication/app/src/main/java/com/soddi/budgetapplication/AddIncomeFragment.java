@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class AddIncomeFragment extends Fragment {
 
-    EditText id, date, amount, title;
+    private EditText date, amount, title;
     private DBController dbController;
 
     public AddIncomeFragment() {
@@ -69,10 +69,14 @@ public class AddIncomeFragment extends Fragment {
                 int incomeAmount = Integer.parseInt(amount.getText().toString());
                 String incomeTitle = title.getText().toString();
 
-                Transaction transaction = new Transaction(incomeDate, incomeAmountStr, incomeTitle);
-                long id = dbController.createTransaction(transaction);
+                if(incomeAmount <= 0) {
+                    Toast.makeText(getActivity(), "Only positive amounts is allowed!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Transaction transaction = new Transaction(incomeDate, incomeAmount, incomeTitle);
+                    long id = dbController.createTransaction(transaction);
+                    Toast.makeText(getActivity(), "Income with id " + id + " was created", Toast.LENGTH_SHORT).show();
+                }
 
-                Toast.makeText(getActivity(), "Income with id " + id + " was created", Toast.LENGTH_SHORT).show();
                 IncomeFragment incomeFragment = new IncomeFragment();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.layout_main, incomeFragment);
