@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * This new version of assignment3 consists of 2 tables (although i find it unnecessary)
+ */
 
 public class MainActivity extends Activity {
 
