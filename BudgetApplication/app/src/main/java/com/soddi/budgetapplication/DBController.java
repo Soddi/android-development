@@ -21,18 +21,19 @@ public class DBController extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_INCOME = "CREATE TABLE " + TABLE_INCOME +
             "(_id integer primary key autoincrement, " +
             "title text not null, " +
-            "amount int not null, " +
+            "amount integer not null, " +
             "date text not null);";
 
     private static final String CREATE_TABLE_EXPENSE = "CREATE TABLE " + TABLE_EXPENSE +
             "(_id integer primary key autoincrement, " +
             "title text not null, " +
-            "amount int not null, " +
+            "amount integer not null, " +
             "date text not null);";
 
     private SQLiteDatabase db;
 
     public DBController(Context context) {
+
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -92,10 +93,6 @@ public class DBController extends SQLiteOpenHelper {
                 TABLE_EXPENSE,
                 new String[]{"_id", "title", "amount", "date"},
                 null, null, null, null, null);
-        //String testQuery = "SELECT (_id, title, amount, date) FROM transaction\n" +
-        //        "UNION SELECT (_id, title, -amount, date) FROM Transaction\n" +
-        //        "ORDER BY date";
-        //return db.rawQuery("SELECT (_id, title, amount, date) FROM transactions WHERE amount < 0;", null);
     }
 
     public int getTotalIncome() {

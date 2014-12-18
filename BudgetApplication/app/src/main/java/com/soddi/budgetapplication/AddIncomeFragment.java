@@ -34,6 +34,12 @@ public class AddIncomeFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        dbController.close();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
