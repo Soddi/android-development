@@ -5,16 +5,18 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SummaryFragment extends Fragment {
 
     private DBController dbController;
     private TextView textview_totalIncome, textview_totalExpense, textview_summary;
-    private int totalIncome, totalExpense, summary;
+    private int totalIncome, totalExpense, summary = 0;
 
     public SummaryFragment() {
         // Required empty public constructor
@@ -33,6 +35,12 @@ public class SummaryFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        dbController.close();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -43,11 +51,17 @@ public class SummaryFragment extends Fragment {
         textview_totalExpense = (TextView) view.findViewById(R.id.texViewExpense);
         textview_summary = (TextView) view.findViewById(R.id.texViewSummary);
 
-        totalIncome = dbController.getTotalIncome();
+        if(dbController != null) {
+            //totalIncome = dbController.getTotalIncome();
+            Toast.makeText(getActivity(), dbController.getDatabaseName(), Toast.LENGTH_LONG).show();
+            totalIncome = dbController.getTotalIncome();
+        } else {
+            Toast.makeText(getActivity(), "DBControllern är inte korrekt instansierad!", Toast.LENGTH_SHORT).show();
+        }
 
-        textview_totalIncome.setText(totalIncome);
-        //textview_totalExpense.setText(dbController.getTotalExpenses());
-        //textview_summary.setText(dbController.getTotalIncome() - dbController.getTotalExpenses());
+        textview_totalIncome.setText(totalIncome + " kr");
+        //textview_totalExpense.setText(dbController.getTotalExpenses() + " kr");
+        //textview_summary.setText(dbController.getTotalIncome() - dbController.getTotalExpenses() + " kr");
 
         return view;
     }
