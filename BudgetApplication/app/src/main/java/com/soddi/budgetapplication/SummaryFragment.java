@@ -54,7 +54,7 @@ public class SummaryFragment extends Fragment {
 
         textview_totalIncome.setText(dbController.getTotalIncome() + " kr");
         textview_totalExpense.setText(dbController.getTotalExpenses() + " kr");
-        textview_summary.setText((dbController.getTotalIncome() - dbController.getTotalExpenses()) + " kr");
+        textview_summary.setText((dbController.getTotalIncome() + dbController.getTotalExpenses()) + " kr");
 
         return view;
     }
