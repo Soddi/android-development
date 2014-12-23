@@ -7,125 +7,37 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 
-
-public class MainActivity extends Activity implements SensorEventListener{
-
-    MediaPlayer mPlayer;
-    Button buttonPlay;
-    Button buttonPause;
-    Button buttonNext;
-    Button buttonPrevious;
-    Button buttonStop;
+public class MainActivity extends Activity implements SensorEventListener {
 
     Sensor sensor;
     SensorManager sensorManager;
-
     TextView displayReading;
-
-    private final static double KNOCK_SENSITIVITY = 9.7;
-    private final static int KNOCK_TIME_SECONDS = 1;
-
-    private ArrayList<Float> arrayList;
-
     private Toast toast;
-
     private boolean knockActivated = false;
 
+    private final static double KNOCK_THRESHOLD = 1.5;
+    private long knockGestureTimeInSeconds = 1500;
+    private float last_z = 0;
+    private long timeFirstKnock = 0;
     int amountOfKnocks = 0;
+
+    MediaPlayer mPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*final MediaPlayer mediaPlayer = new MediaPlayer();
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 15, 0);
-        mediaPlayer.create(this, R.raw.game_of_thrones);
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            public void onPrepared(MediaPlayer mp) {
-                if(mp == mediaPlayer) {
-                    mp.start();
-                }
-            }
-        });
-        //mediaPlayer.prepareAsync();
-        //mediaPlayer.start(); //no need to call prepare, create does that for you :)
-        */
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-
         displayReading = (TextView) findViewById(R.id.textView_SensorReading);
-
-        buttonPlay = (Button) findViewById(R.id.button);
-        buttonPlay.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                mPlayer = MediaPlayer.create(getApplicationContext(),R.raw.game_of_thrones);
-                mPlayer.start();//Start playing the music
-            }
-        });
-
-        buttonPause = (Button) findViewById(R.id.button2);
-        buttonPause.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                if(mPlayer!=null && mPlayer.isPlaying()){//If music is playing already
-                    mPlayer.pause();//Stop playing the music
-                }
-            }
-        });
-
-        buttonNext = (Button) findViewById(R.id.button3);
-        buttonNext.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                if(mPlayer!=null || mPlayer.isPlaying()){//If music is playing already
-                    mPlayer.stop();//Stop playing the music
-                    mPlayer = MediaPlayer.create(getApplicationContext(),R.raw.the_big_bang_theory);
-                    mPlayer.start();//Start playing the music
-                }
-            }
-        });
-
-        buttonPrevious = (Button) findViewById(R.id.button4);
-        buttonPrevious.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                if(mPlayer!=null || mPlayer.isPlaying()){//If music is playing already
-                    mPlayer.stop();//Stop playing the music
-                    mPlayer = MediaPlayer.create(getApplicationContext(),R.raw.the_simpsons);
-                    mPlayer.start();//Start playing the music
-                }
-            }
-        });
-
-        buttonStop = (Button) findViewById(R.id.button5);
-        buttonStop.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                if(mPlayer!=null && mPlayer.isPlaying()){//If music is playing already
-                    mPlayer.stop();//Stop playing the music
-                }
-            }
-        });
 
     }
 
@@ -154,50 +66,59 @@ public class MainActivity extends Activity implements SensorEventListener{
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float value = event.values[2];
-        displayReading.setText("Z: " + value);
-        int knocksCounter = 0;
-        if(value> KNOCK_SENSITIVITY) {
-            knockActivated = true;
-            knocksCounter += 1;
-            Time time = new Time();
-            Time stopTime = new Time();
-            stopTime.setToNow();
-            stopTime.second += KNOCK_TIME_SECONDS;
-            stopTime.format("%H:%M:%S");
-            do {
-                time.setToNow();
-                if(event.values[2] > KNOCK_SENSITIVITY) {
-                    amountOfKnocks++;
-                }
-            } while(time.before(stopTime));
+        float zValue = event.values[2];
+        float knockValue = Math.abs(zValue - last_z);
+        long currentTime = System.currentTimeMillis();
+        displayReading.setText("Z: " + knockValue);
 
-        } else {
-            if(toast != null) {
-                toast.cancel();
-            }
+        if (knockValue > KNOCK_THRESHOLD) {
+            timeFirstKnock = System.currentTimeMillis();
+            knockActivated = true;
+            amountOfKnocks++;
         }
-        if(arrayList != null && knockActivated) {
-            switch (knocksCounter) {
-                case 1: toast.makeText(this, "Play music", Toast.LENGTH_SHORT).show();
-                        knockActivated = false;
-                        break;
-                case 2: toast.makeText(this, "Pause music", Toast.LENGTH_SHORT).show();
-                        knockActivated = false;
-                        break;
-                case 3: toast.makeText(this, "Next music", Toast.LENGTH_SHORT).show();
-                        knockActivated = false;
-                        break;
-                case 4: toast.makeText(this, "Previous music", Toast.LENGTH_SHORT).show();
-                        knockActivated = false;
-                        break;
-                case 5: toast.makeText(this, "Stop music", Toast.LENGTH_SHORT).show();
-                        knockActivated = false;
-                        break;
-                default: toast.makeText(this, "" + knocksCounter, Toast.LENGTH_SHORT).show();
-                        knockActivated = false;
-                        break;
+        last_z = zValue;
+        if (currentTime - timeFirstKnock > knockGestureTimeInSeconds && knockActivated) {
+            switch (amountOfKnocks) {
+                case 1:
+                    Toast.makeText(this, "Stopping music (" + amountOfKnocks + ")", Toast.LENGTH_SHORT).show();
+                    if(mPlayer!=null && mPlayer.isPlaying()){//If music is playing already
+                        mPlayer.stop();//Stop playing the music
+                    }
+                    break;
+                case 2:
+                    Toast.makeText(this, "Starting music (" + amountOfKnocks + ")", Toast.LENGTH_SHORT).show();
+                    mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.game_of_thrones);
+                    mPlayer.start();//Start playing the music
+                    break;
+                case 3:
+                    Toast.makeText(this, "Pausing music (" + amountOfKnocks + ")", Toast.LENGTH_SHORT).show();
+                    if(mPlayer!=null && mPlayer.isPlaying()){//If music is playing already
+                        mPlayer.pause();//Stop playing the music
+                    }
+                    break;
+                case 4:
+                    Toast.makeText(this, "Next song (" + amountOfKnocks + ")", Toast.LENGTH_SHORT).show();
+                    if(mPlayer!=null){//If music is playing already
+                        mPlayer.stop();//Stop playing the music
+                        mPlayer = MediaPlayer.create(getApplicationContext(),R.raw.the_simpsons);
+                        mPlayer.start();//Start playing the music
+                    }
+                    break;
+                case 5:
+                    Toast.makeText(this, "previous song (" + amountOfKnocks + ")", Toast.LENGTH_SHORT).show();
+                    if(mPlayer!=null){//If music is playing already
+                        mPlayer.stop();//Stop playing the music
+                        mPlayer = MediaPlayer.create(getApplicationContext(),R.raw.the_big_bang_theory);
+                        mPlayer.start();//Start playing the music
+                    }
+                    break;
+                default:
+                    toast.makeText(this, "Amount of knocks: " + amountOfKnocks, Toast.LENGTH_SHORT).show();
+                    break;
             }
+            knockActivated = false;
+            amountOfKnocks = 0;
+            timeFirstKnock = 0;
         }
     }
 
