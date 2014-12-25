@@ -34,7 +34,6 @@ public class MainActivity extends ListActivity implements SensorEventListener {
     float avgValue = 0;
     private ArrayList<Float> arraylistValues = new ArrayList<Float>();
     private ArrayList<Integer> songList = new ArrayList<Integer>();
-    private ArrayList<String> songListString = new ArrayList<String>();
     private CustomAdapter<Integer> customAdapter;
     int songCounter = 0;
     private int currentSong;
@@ -55,10 +54,6 @@ public class MainActivity extends ListActivity implements SensorEventListener {
         songList.add(R.raw.the_big_bang_theory);
         songList.add(R.raw.the_simpsons);
 
-        songListString.add(getResources().getResourceName(R.raw.the_simpsons));
-        songListString.add(getResources().getResourceName(R.raw.the_big_bang_theory));
-        songListString.add(getResources().getResourceName(R.raw.game_of_thrones));
-
         listView = (ListView) findViewById(android.R.id.list);
         customAdapter = new CustomAdapter<Integer>(this, songList);
         listView.setAdapter(customAdapter);
@@ -71,7 +66,6 @@ public class MainActivity extends ListActivity implements SensorEventListener {
             songCounter = 0;
         } else {
             currentSong = songList.get(songCounter);
-            currentSong = songListString.indexOf(songCounter);
             songCounter++;
         }
         return currentSong;
@@ -82,7 +76,6 @@ public class MainActivity extends ListActivity implements SensorEventListener {
             songCounter = 2;
         } else {
             currentSong = songList.get(songCounter);
-            currentSong = songListString.indexOf(songCounter);
             songCounter--;
         }
         return currentSong;
@@ -130,8 +123,7 @@ public class MainActivity extends ListActivity implements SensorEventListener {
             avgValue /= arraylistValues.size();
             avgValue = Math.abs(avgValue - last_z);
             int currentArrayNumber = songList.indexOf(currentSong);
-            int currentArrayNumber2 = songListString.indexOf(currentSong);
-            displayReading.setText("Z: " + avgValue + "\nNumberOfKnocks: " + amountOfKnocks + "\ncurrent Song: " + currentArrayNumber2);
+            displayReading.setText("Z: " + avgValue + "\nNumberOfKnocks: " + amountOfKnocks + "\ncurrent Song: " + currentArrayNumber);
             if (avgValue > KNOCK_THRESHOLD) {
                 timeFirstKnock = System.currentTimeMillis();
                 knockActivated = true;
