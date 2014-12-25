@@ -66,7 +66,6 @@ public class MainActivity extends ListActivity implements SensorEventListener {
     }
 
 
-
     private int nextSong() {
         if (songCounter > 2) {
             songCounter = 0;
