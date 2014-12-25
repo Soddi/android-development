@@ -1,6 +1,5 @@
 package com.soddi.mediasensorapp;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -8,8 +7,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +37,10 @@ public class MainActivity extends ListActivity implements SensorEventListener {
     float avgValue = 0;
     private ArrayList<Float> arraylistValues = new ArrayList<Float>();
     private ArrayList<Integer> songList = new ArrayList<Integer>();
+    private CustomAdapter<Integer> customAdapter;
     int songCounter = 0;
+    private int currentSong;
+    ListView listView;
 
     MediaPlayer mPlayer;
 
@@ -51,17 +57,21 @@ public class MainActivity extends ListActivity implements SensorEventListener {
         songList.add(R.raw.the_big_bang_theory);
         songList.add(R.raw.the_simpsons);
 
-        CustomAdapterSong adapterSong = new CustomAdapterSong(this, songList);
-        setListAdapter(adapterSong);
+        listView = (ListView) findViewById(android.R.id.list);
+        customAdapter = new CustomAdapter<Integer>(this, songList);
+        listView.setAdapter(customAdapter);
     }
 
+
+
     private int chooseSong() {
-        if (songCounter == 3) {
+        if (songCounter > 2) {
             songCounter = 0;
-        }
+        } else {
         songCounter++;
-        int song = songList.get(songCounter);
-        return song;
+        currentSong = songList.get(songCounter);
+        }
+        return currentSong;
     }
 
     @Override
