@@ -7,11 +7,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +24,8 @@ public class MainActivity extends ListActivity implements SensorEventListener {
     private Toast toast;
     private boolean knockActivated = false;
 
-    private final static double KNOCK_THRESHOLD = 0.2;
-    private long knockingTime = 1250;
+    private final static double KNOCK_THRESHOLD = 0.4;
+    private long knockingTime = 1500;
     private final static int SAMPLING_TIME = 20;
     private float last_z = 0;
     private long lastUpdate = 0;
@@ -37,6 +34,7 @@ public class MainActivity extends ListActivity implements SensorEventListener {
     float avgValue = 0;
     private ArrayList<Float> arraylistValues = new ArrayList<Float>();
     private ArrayList<Integer> songList = new ArrayList<Integer>();
+    private ArrayList<String> songListString = new ArrayList<String>();
     private CustomAdapter<Integer> customAdapter;
     int songCounter = 0;
     private int currentSong;
@@ -57,19 +55,36 @@ public class MainActivity extends ListActivity implements SensorEventListener {
         songList.add(R.raw.the_big_bang_theory);
         songList.add(R.raw.the_simpsons);
 
+        songListString.add(getResources().getResourceName(R.raw.the_simpsons));
+        songListString.add(getResources().getResourceName(R.raw.the_big_bang_theory));
+        songListString.add(getResources().getResourceName(R.raw.game_of_thrones));
+
         listView = (ListView) findViewById(android.R.id.list);
         customAdapter = new CustomAdapter<Integer>(this, songList);
         listView.setAdapter(customAdapter);
+        currentSong = songList.get(songCounter);
     }
 
 
 
-    private int chooseSong() {
+    private int nextSong() {
         if (songCounter > 2) {
             songCounter = 0;
         } else {
-        songCounter++;
-        currentSong = songList.get(songCounter);
+            currentSong = songList.get(songCounter);
+            currentSong = songListString.indexOf(songCounter);
+            songCounter++;
+        }
+        return currentSong;
+    }
+
+    private int prevSong() {
+        if (songCounter < 0) {
+            songCounter = 2;
+        } else {
+            currentSong = songList.get(songCounter);
+            currentSong = songListString.indexOf(songCounter);
+            songCounter--;
         }
         return currentSong;
     }
@@ -115,7 +130,9 @@ public class MainActivity extends ListActivity implements SensorEventListener {
             }
             avgValue /= arraylistValues.size();
             avgValue = Math.abs(avgValue - last_z);
-            displayReading.setText("Z: " + avgValue + "\nNumberOfKnocks: " + amountOfKnocks);
+            int currentArrayNumber = songList.indexOf(currentSong);
+            int currentArrayNumber2 = songListString.indexOf(currentSong);
+            displayReading.setText("Z: " + avgValue + "\nNumberOfKnocks: " + amountOfKnocks + "\ncurrent Song: " + currentArrayNumber2);
             if (avgValue > KNOCK_THRESHOLD) {
                 timeFirstKnock = System.currentTimeMillis();
                 knockActivated = true;
@@ -128,11 +145,11 @@ public class MainActivity extends ListActivity implements SensorEventListener {
         if (currentTime - timeFirstKnock > knockingTime && knockActivated) {
             switch (amountOfKnocks) {
                 case 1:
-                    if (mPlayer == null) {
+                    if (mPlayer == null || !mPlayer.isPlaying()) {
                         Toast.makeText(this, "Starting music (" + amountOfKnocks + ")", Toast.LENGTH_SHORT).show();
-                        mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.game_of_thrones);
+                        mPlayer = MediaPlayer.create(getApplicationContext(), currentSong);
                         mPlayer.start();//Start playing the music
-                    } else {
+                    } else if(mPlayer != null && mPlayer.isPlaying()) {
                         Toast.makeText(this, "Pausing music (" + amountOfKnocks + ")", Toast.LENGTH_SHORT).show();
                         mPlayer.pause();
                     }
@@ -141,7 +158,7 @@ public class MainActivity extends ListActivity implements SensorEventListener {
                     Toast.makeText(this, "Next song (" + amountOfKnocks + ")", Toast.LENGTH_SHORT).show();
                     if (mPlayer != null) {//If music is playing already
                         mPlayer.stop();//Stop playing the music
-                        mPlayer = MediaPlayer.create(getApplicationContext(), chooseSong());
+                        mPlayer = MediaPlayer.create(getApplicationContext(), nextSong());
                         mPlayer.start();//Start playing the music
                     }
                     break;
@@ -149,7 +166,7 @@ public class MainActivity extends ListActivity implements SensorEventListener {
                     Toast.makeText(this, "previous song (" + amountOfKnocks + ")", Toast.LENGTH_SHORT).show();
                     if (mPlayer != null) {//If music is playing already
                         mPlayer.stop();//Stop playing the music
-                        mPlayer = MediaPlayer.create(getApplicationContext(), chooseSong());
+                        mPlayer = MediaPlayer.create(getApplicationContext(), prevSong());
                         mPlayer.start();//Start playing the music
                     }
                     break;

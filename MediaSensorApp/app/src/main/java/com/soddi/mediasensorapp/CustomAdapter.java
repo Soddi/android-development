@@ -13,12 +13,12 @@ import java.util.ArrayList;
 /**
  * Created by soddi on 2014-12-24.
  */
-public class CustomAdapter<Integer> extends ArrayAdapter<Integer> {
+public class CustomAdapter<String> extends ArrayAdapter<String> {
 
     private final Context context;
-    private ArrayList<Integer> songs;
+    private ArrayList<String> songs;
 
-    public CustomAdapter(Context context, ArrayList<Integer> songs) {
+    public CustomAdapter(Context context, ArrayList<String> songs) {
         super(context, R.layout.listview_layout, songs);
         this.context = context;
         this.songs = songs;
@@ -31,9 +31,9 @@ public class CustomAdapter<Integer> extends ArrayAdapter<Integer> {
         View view = inflater.inflate(R.layout.listview_layout, parent, false);
         TextView textView = (TextView) view.findViewById(R.id.list_TextView);
         ImageView imageView = (ImageView) view.findViewById(R.id.list_ImageView);
-        Object song = songs.get(position);
-        String name = context.getResources().getResourceName(songs.get(position));
-        textView.setText(song.toString());
+        int songID = Integer.parseInt("" + songs.get(position));
+        String songName = (String) context.getResources().getResourceName(songID);
+        textView.setText("Song: " + songName);
         imageView.setImageResource(R.drawable.ic_action_headphones);
         return view;
     }
