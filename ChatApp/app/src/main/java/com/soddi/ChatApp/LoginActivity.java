@@ -43,7 +43,10 @@ public class LoginActivity extends TemplateMenuActivity {
             LoginFragment loginFragment = new LoginFragment();
             loginFragment.setArguments(getIntent().getExtras());
 
-            getFragmentManager().beginTransaction().add(R.id.fragment_login_container, loginFragment).commit();
+            //getFragmentManager().beginTransaction().add(R.id.fragment_login_container, loginFragment).commit();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.fragment_login_container, loginFragment).commit();
+            customAnimate(fragmentTransaction);
         }
     }
 
@@ -70,6 +73,7 @@ public class LoginActivity extends TemplateMenuActivity {
         fragmentTransaction.replace(R.id.fragment_login_container, registerFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        customAnimate(fragmentTransaction);
     }
 
     public void revivePassword(View view) {
@@ -79,6 +83,7 @@ public class LoginActivity extends TemplateMenuActivity {
         fragmentTransaction.replace(R.id.fragment_login_container, forgotPasswordFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        customAnimate(fragmentTransaction);
 
     }
 
@@ -89,6 +94,12 @@ public class LoginActivity extends TemplateMenuActivity {
         fragmentTransaction.replace(R.id.fragment_login_container, aboutFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        customAnimate(fragmentTransaction);
+    }
+
+    private void customAnimate(FragmentTransaction fragmentTransaction) {
+        fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
+                android.R.animator.fade_in, android.R.animator.fade_out);
     }
 
     public void createAccount(View view) {

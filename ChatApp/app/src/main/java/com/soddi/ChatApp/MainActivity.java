@@ -47,7 +47,9 @@ public class MainActivity extends TemplateMenuActivity {
             GroupFragment groupFragment = new GroupFragment();
             groupFragment.setArguments(getIntent().getExtras());
 
-            getFragmentManager().beginTransaction().add(R.id.fragment_chat_container, groupFragment).commit();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.fragment_chat_container, groupFragment).commit();
+            customAnimate(fragmentTransaction);
 
     }
 
@@ -126,6 +128,7 @@ public class MainActivity extends TemplateMenuActivity {
             fragmentTransaction.replace(R.id.fragment_chat_container, settingsFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+            customAnimate(fragmentTransaction);
         }
     }
 
@@ -140,11 +143,17 @@ public class MainActivity extends TemplateMenuActivity {
             fragmentTransaction.replace(R.id.fragment_chat_container, aboutFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+            customAnimate(fragmentTransaction);
         }
     }
 
     public void sendMessage(View view) {
         ChatFragment chatFragment = (ChatFragment) getFragmentManager().findFragmentById(R.id.fragment_chat_container);
         chatFragment.sendMessage();
+    }
+
+    private void customAnimate(FragmentTransaction fragmentTransaction) {
+        fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
+                android.R.animator.fade_in, android.R.animator.fade_out);
     }
 }

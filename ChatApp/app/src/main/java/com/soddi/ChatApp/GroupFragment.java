@@ -89,6 +89,8 @@ public class GroupFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragment_chat_container, chatFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+                fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
+                        android.R.animator.fade_in, android.R.animator.fade_out);
                 Log.d("GroupFragment", "clicked a group");
             }
         });
